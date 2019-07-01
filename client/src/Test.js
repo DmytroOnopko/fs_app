@@ -6,13 +6,13 @@ import { fromJS } from 'immutable';
 class Test extends Component{
 
     componentDidMount() {
-        this.props.getData();
+        console.log(this);
+        // this.props.getData();
     }
 
     render() {
         const {data} = this.props;
         console.log('render', data);
-        console.log('render', typeof(data));
         return(
             <div>
                 <ul>
@@ -33,6 +33,7 @@ class Test extends Component{
 }
 
 const mapStateToProps = (store) => {
+
     console.log('mapStateToProps', store);
     return {
         data: store.data.get('data').toJS(),
@@ -41,6 +42,7 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
+
     console.log('mapDispatchToProps', dispatch);
     return {
         getData: () => dispatch(getDataFromDb())

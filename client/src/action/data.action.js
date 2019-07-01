@@ -1,5 +1,5 @@
 const axios = require('axios');
-const api = 'http://localhost:3001/api/';
+const api = 'http://localhost:3001/api';
 
 export const GET_DATA_LOADING = 'GET_DATA_LOADING';
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';

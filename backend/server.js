@@ -21,10 +21,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
 
-app.use('/api', getData);
-app.use('/api', updateData);
-app.use('/api', deleteData);
-app.use('/api', putData);
+// app.use('/api', getData);
+// app.use('/api', updateData);
+// app.use('/api', deleteData);
+// app.use('/api', putData);
 app.use('/api', getPost);
 
 mongoose.connect(dbRoute, { useNewUrlParser: true });
