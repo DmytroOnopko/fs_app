@@ -10,12 +10,11 @@ export const getDataFromDb = () => {
         dispatch({
             type: GET_DATA_LOADING
         });
-        // debugger;
         axios
             .get(api + '/getData')
             // .then(res => res.json())
-            .then(data => {
-                console.log('respons->data', data);
+            .then(({data}) => {
+                console.log('respons -> data', data);
                 dispatch({
                     type: GET_DATA_SUCCESS,
                     payload: data.data
