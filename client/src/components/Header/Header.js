@@ -2,11 +2,11 @@ import React from 'react';
 import logo from './img/logo.svg.png'
 import './header.scss'
 
-const Header = (props) => {
+const Header = () => {
     return (
         <header className="header">
             <div className="header-container--pd container d-flex justify-content-between">
-                <a href="#" className="header-logo d-flex align-items-center">
+                <a href="http://localhost:3000/" className="header-logo d-flex align-items-center">
                     <i className="header-logo__i fab fa-instagram fa-2x"/>
                     <img className="header-logo__img header-logo__img--size" src={logo} alt="logo"/>
                 </a>

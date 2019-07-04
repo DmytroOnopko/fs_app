@@ -1,5 +1,5 @@
 const axios = require('axios');
-const api = 'http://localhost:3001/api';
+const url = 'http://localhost:3001';
 
 export const GET_POST_LOADING = 'GET_POST_LOADING';
 export const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
@@ -10,14 +10,12 @@ export const getPostFromDb = () => {
         dispatch({
             type: GET_POST_LOADING
         });
-        // debugger;
-        fetch(api + '/post')
-            .then(res => res.json())
-            .then(post => {
-                console.log("post: ", post);
+        axios
+            .get(url + '/post')
+            .then(({data}) => {
                 dispatch({
                     type: GET_POST_SUCCESS,
-                    payload: post.post
+                    payload: data
                 })
             })
             .catch(err => {

@@ -12,7 +12,6 @@ export const getDataFromDb = () => {
         });
         axios
             .get(api + '/getData')
-            // .then(res => res.json())
             .then(({data}) => {
                 console.log('respons -> data', data);
                 dispatch({

@@ -1,0 +1,36 @@
+@import "../../../global";
+
+.card {
+
+  &-addComments {
+
+    &-wrap {
+      padding: 0 15px;
+      border-top: $border-style;
+
+      &__textarea {
+        border: 0;
+        resize: none;
+        width: 100%;
+        height: 70px;
+        padding-top: 22px;
+
+        &:focus {
+          outline: none;
+        }
+
+        &::placeholder {
+          color: #a1a1a1;
+        }
+      }
+
+      &__btn {
+        border: 0;
+        background-color: inherit;
+        font-weight: $font-w_600;
+        font-size: $font-s_15;
+        color: #e1e1e1;
+      }
+    }
+  }
+}

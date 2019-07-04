@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux"
 import { getDataFromDb } from './action/data.action'
-import { fromJS } from 'immutable';
 
 class Test extends Component{
 

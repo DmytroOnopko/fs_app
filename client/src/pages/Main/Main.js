@@ -1,11 +1,11 @@
 import React from 'react';
-import './main.scss'
-import SideBar from "../../components/SideBar";
-import Post from "../../components/Post";
+import './Main.scss'
+import SideBar from '../../components/SideBar';
+import Post from '../../components/Post/Post';
 
 const main = () => {
     return (
-        <section className="main">
+        <section className="main pt-5">
             <div className='container'>
                 <div className="row">
                     <div className="col-12 col-md-8">

@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './sideBar.scss'
 
-const SideBar = (props) => {
+const SideBar = () => {
     return (
         <div>
             Side bar
