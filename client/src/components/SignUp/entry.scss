@@ -1,0 +1,38 @@
+@import "../global";
+
+.entry-section{
+  background-color: $bg-entry-section-color;
+}
+.form{
+  width: 60%;
+  &-wrap{
+    padding: 20px;
+    border: 1px solid #e6e6e6;
+    background-color: white;
+    &__divider{
+      display: flex;
+      align-items: center;
+    }
+    &__divider:after,
+    &__divider:before{
+      content: '';
+      display: block;
+      width: 100%;
+      border-bottom: 1px solid black;
+    }
+    &__divider:before{
+      margin-right: 15px;
+    }
+    &__divider:after{
+      margin-left: 15px;
+    }
+  }
+  &__img--size{
+    width: 175px;
+    display: block;
+    margin: 0 auto 10px;
+  }
+}
+.image-entry{
+  height: 618px;
+}
