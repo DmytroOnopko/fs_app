@@ -2,6 +2,7 @@ import React from 'react';
 import './HeaderPost.scss';
 
 const HeaderPost = (props) => {
+    
     return(
         <div className="card-header d-flex align-items-center">
             <a href="http://localhost:3000/" className="card-header-img">

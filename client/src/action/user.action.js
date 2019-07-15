@@ -5,23 +5,46 @@ export const GET_USER_LOADING = 'GET_USER_LOADING';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_ERROR = 'GET_USER_ERROR';
 
-export const getUserFromDb = () => {
+export const CREATE_USER = 'CREATE_USER';
+export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
+export const CREATE_USER_ERROR = 'CREATE_USER_ERROR';
+//
+// export const getUserFromDb = () => {
+//     return dispatch => {
+//         dispatch({
+//             type: GET_USER_LOADING
+//         });
+//         axios
+//             .get(url + '/user')
+//             .then(({data}) => {
+//                 console.log(data);
+//                 dispatch({
+//                     type: GET_USER_SUCCESS,
+//                     payload: data
+//                 })
+//             })
+//             .catch(err => {
+//                 dispatch({
+//                     type: GET_USER_ERROR
+//                 })
+//             })
+//     }
+// };
+
+export const addUserToDb =  (user) =>{
     return dispatch => {
-        dispatch({
-            type: GET_USER_LOADING
-        });
         axios
-            .get(url + '/user')
-            .then(({data}) => {
-                console.log(data);
+            .post(url + '/api/user', user)
+            .then(data => {
                 dispatch({
-                    type: GET_USER_SUCCESS,
+                    type: CREATE_USER_SUCCESS,
                     payload: data
-                })
+                });
             })
             .catch(err => {
                 dispatch({
-                    type: GET_USER_ERROR
+                    type: CREATE_USER_ERROR,
+                    payload: err.response
                 })
             })
     }
