@@ -13,7 +13,6 @@ export const getDataFromDb = () => {
         axios
             .get(api + '/getData')
             .then(({data}) => {
-                console.log('respons -> data', data);
                 dispatch({
                     type: GET_DATA_SUCCESS,
                     payload: data.data
