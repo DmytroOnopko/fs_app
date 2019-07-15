@@ -8,28 +8,31 @@ export const GET_USER_ERROR = 'GET_USER_ERROR';
 export const CREATE_USER = 'CREATE_USER';
 export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
 export const CREATE_USER_ERROR = 'CREATE_USER_ERROR';
-//
-// export const getUserFromDb = () => {
-//     return dispatch => {
-//         dispatch({
-//             type: GET_USER_LOADING
-//         });
-//         axios
-//             .get(url + '/user')
-//             .then(({data}) => {
-//                 console.log(data);
-//                 dispatch({
-//                     type: GET_USER_SUCCESS,
-//                     payload: data
-//                 })
-//             })
-//             .catch(err => {
-//                 dispatch({
-//                     type: GET_USER_ERROR
-//                 })
-//             })
-//     }
-// };
+
+export const getUserFromDb = (userId) => {
+    return dispatch => {
+        dispatch({
+            type: GET_USER_LOADING
+        });
+        axios
+            .get(url + '/user', {
+                params: {
+                    ID: userId
+                }
+            })
+            .then(({data}) => {
+                dispatch({
+                    type: GET_USER_SUCCESS,
+                    payload: data
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type: GET_USER_ERROR
+                })
+            })
+    }
+};
 
 export const addUserToDb =  (user) =>{
     return dispatch => {

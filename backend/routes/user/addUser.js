@@ -45,7 +45,6 @@ router.post('/user', multerWare, (req, res) => {
         }
 
     })
-
 });
 
 module.exports = router;
