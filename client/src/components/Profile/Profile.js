@@ -20,8 +20,13 @@ class Profile extends Component {
         return (
             <div>
                 <Header/>
-                <ProfileHeader login={user.login} name={user.name} surname={user.surname} avatar={user.img_url}
-                               postsCount={getCount(user.posts)} readersCount={getCount(user.subscribers_id)} subscribedCount={getCount(user.subscribed_to_id)}/>
+                <ProfileHeader login={user.login}
+                               name={user.name}
+                               surname={user.surname}
+                               avatar={user.img_url}
+                               postsCount={getCount(user.posts)}
+                               readersCount={getCount(user.subscribers_id)}
+                               subscribedCount={getCount(user.subscribed_to_id)}/>
                 <ProfilePosts/>
             </div>
         );
