@@ -3,7 +3,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './public/uploads/avatar');
+        cb(null, './public/uploads');
     },
     filename: (req, file, cb) => {
         cb(null, `${file.fieldname}_${Date.now()}_${Math.floor(Math.random()*10000)}${path.extname(file.originalname)}`)

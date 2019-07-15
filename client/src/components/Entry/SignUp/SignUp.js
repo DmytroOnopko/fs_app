@@ -20,6 +20,7 @@ class SignUp extends Component {
     };
 
     onChange = (e) => {
+        debugger
         switch (e.target.name) {
             case 'img_url':
                 this.setState({img_url: e.target.files[0]});
@@ -51,7 +52,10 @@ class SignUp extends Component {
         }
     };
 
+    truncateStr = (str, maxlength = 10) => (str.length > maxlength) ? `${str.slice(0, maxlength - 3)} ... .${str.split('.')[1]}` : str;
+
     render() {
+        console.log(this.state);
         const handleForm = () => {
             const { status } = this.props.dataDb;
             if(status === 500){
@@ -63,7 +67,7 @@ class SignUp extends Component {
             }else if(status === 200){
                 return <Success/>;
             }else{
-                const {name, surname, email, password } = this.state;
+                const {name, surname, email, password, img_url } = this.state;
                 return(
                     <>
                         <div className="form-block input-group d-flex flex-column mb-2">
@@ -118,12 +122,15 @@ class SignUp extends Component {
                         </div>
 
                         <div className="form-block custom-file mb-3">
-                            <input type="file" className="custom-file-input" id="customFileLangHTML"
+                            <label className="form-block__label custom-file-label" htmlFor="customFileLangHTML"
+                                   data-browse="Upload">
+                                <span>{!!img_url ?  this.truncateStr(img_url.name) : 'Upload file'}</span>
+                            <input type="file" className="custom-file-input file-path validate" id="customFileLangHTML"
                                    title="Must contain path to your image"
                                    onChange={this.onChange}
                                    name="img_url"/>
-                            <label className="form-block__label custom-file-label" htmlFor="customFileLangHTML"
-                                   data-browse="Upload">Upload your image</label>
+                            </label>
+
                         </div>
 
                         <button type="submit" className="form-wrap__button btn btn-primary btn-lg btn-block">Sign up</button>
