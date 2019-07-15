@@ -1,0 +1,76 @@
+@import "../../global";
+
+.form{
+  width: 60%;
+  &-wrap{
+    padding: 20px;
+    border: $border-style;
+    background-color: white;
+    &__button,
+    &__link{
+      font-size: $font-s_14;
+      font-weight: $font-w_500;
+    }
+    &__divider{
+      display: flex;
+      align-items: center;
+      font-size: $font-s_14;
+      font-weight: $font-w_500;
+      color: $item-color-text;
+    }
+    &__divider:after,
+    &__divider:before{
+      content: '';
+      display: block;
+      width: 100%;
+      border-bottom: $border-style;
+    }
+    &__divider:before{
+      margin: 0 15px 0 30px;
+    }
+    &__divider:after{
+      margin: 0 30px 0 15px;
+    }
+  }
+  &__img--size{
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+  }
+  &-block {
+    &__label {
+      font-size: 12px;
+      color: $item-color-text;
+      font-weight: 400;
+
+      &:after {
+        font-weight: $font-w_500;
+        color: $item-color-text;
+      }
+    }
+
+    &__text {
+      font-size: 10px;
+    }
+
+    &__input {
+      width: 100% !important;
+
+      &::placeholder {
+        font-size: $font-s_14;
+        font-weight: $font-w_500;
+        color: $item-color-text;
+      }
+
+      &:valid {
+        color: $valid-color-text;
+        background-color: $bg-valid-color;
+      }
+
+      &:invalid {
+        color: $invalid-color-text;
+        background-color: $bg-invalid-color;
+      }
+    }
+  }
+}

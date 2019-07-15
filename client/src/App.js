@@ -4,6 +4,7 @@ import Auth from './pages/Auth/Auth'
 import {BrowserRouter, Route} from 'react-router-dom';
 import Profile from "./components/Profile/Profile";
 
+
 const App = () => {
     return (
         <BrowserRouter>

@@ -34,33 +34,20 @@ export const getUserFromDb = (userId) => {
     }
 };
 
-export const addUserToDb = (name, surname, email, login, password, img_url, subscribers_id, subscribed_to_id, posts) => {
+export const addUserToDb =  (user) =>{
     return dispatch => {
-        const user = {
-            name: name,
-            surname: surname,
-            email: email,
-            login: login,
-            password: password,
-            img_url: img_url,
-            subscribers_id: subscribers_id,
-            subscribed_to_id: subscribed_to_id,
-            posts: posts
-        };
-        dispatch({
-            type: CREATE_USER,
-        });
         axios
-            .post(url + '/api/user', {user})
+            .post(url + '/api/user', user)
             .then(data => {
-                console.log(data);
                 dispatch({
-                    type: CREATE_USER_SUCCESS
+                    type: CREATE_USER_SUCCESS,
+                    payload: data
                 });
             })
             .catch(err => {
                 dispatch({
-                    type: CREATE_USER_ERROR
+                    type: CREATE_USER_ERROR,
+                    payload: err.response
                 })
             })
     }

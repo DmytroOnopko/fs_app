@@ -1,24 +1,22 @@
 import { fromJS } from 'immutable';
-import {GET_USER_LOADING, GET_USER_SUCCESS, GET_USER_ERROR} from "../action/user.action";
+import {CREATE_USER_SUCCESS, CREATE_USER_ERROR} from "../action/user.action";
 
 const initialState = fromJS({
-    items: [],
-    isLoading: false
+    dataDb: {},
+
 });
 
-export default function userReducer(state = initialState, action) {
+const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_USER_LOADING:
+        case CREATE_USER_SUCCESS:
             return state
-                .set('isLoading', true);
-        case GET_USER_SUCCESS:
+                .set('dataDb', fromJS(action.payload));
+        case CREATE_USER_ERROR:
             return state
-                .set('isLoading', false)
-                .set('items', fromJS(action.payload));
-        case GET_USER_ERROR:
-            return state
-                .set('isLoading', false);
+                .set('dataDb', fromJS(action.payload));
         default:
             return state;
     }
-}
+};
+
+export default userReducer;

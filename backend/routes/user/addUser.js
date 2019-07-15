@@ -1,46 +1,50 @@
 const User = require('../../models/User');
 const {Router} = require('express');
 const router = new Router();
+const path = require('path');
+const multerWare = require('../../middlewares/multer.ware');
 
-router.post('/user', async (req, res) => {
-    res.setHeader('Content-Type','application/json');
+router.post('/user', multerWare, (req, res) => {
+    res.set('Content-Type', 'application/json');
 
-    const newUser = new User({
-        name:             req.body.user.name,
-        surname:          req.body.user.surname,
-        email:            req.body.user.email,
-        login:            req.body.user.login,
-        password:         req.body.user.password,
-        img_url:          '',
-        subscribers_id:   [],
-        subscribed_to_id: [],
-        posts:            []
-    });
+    User.findOne({email: req.body.email}, (err, user) => {
+        if (!user) {
+            const newUser = new User({
+                name: req.body.name,
+                surname: req.body.surname,
+                email: req.body.email,
+                login: `${req.body.name}_${req.body.surname}`.toLowerCase(),
+                password: req.body.password,
+                img_url: req.file.path,
+                subscribers_id: [],
+                subscribed_to_id: [],
+                posts: []
+            });
 
-    await User
-        .findOne({ email: req.body.user.email },(err, data) => {
-            // console.log('req.body.user.email',req.body.user.email);
-            // console.log('data',data);
-            if(err){
-                console.error('[ ERROR ] \n', err);
-                return res.status(400).json({msg: err});
-            }else if(data === null){
-                newUser
-                    .save((err, user) => {
-                        if(err){
-                            console.error('[ ERROR ] \n', err);
-                            return res.status(400).json({msg: err});
-                        }
-                        console.log('[ SUCCESS ] - USER ADD:\n', user);
-                        res.status(200).json(user);
-                    })
-            }else if(data.email === req.body.user.email){
-                console.error(`[ ERROR ] - USER IS EXIST:\n[request_email: ${req.body.user.email}] is equal [email_from_db: ${data.email}]`);
-                return res.status(500).json({msg: err});
-            }
+            newUser.save((err, user) => {
+                if (err) {
+                    console.error('[ ERROR ] \n', err);
+                    return res.status(400).json({msg: err});
+                }
+                console.log('[ SUCCESS ] - USER ADD:\n', user);
+                res.status(200).json(user);
+            })
+        }
+        else if (user.email === req.body.email) {
+            console.error(`[ ERROR ] - USER IS EXIST:\n[request_email: ${req.body.email}] is equal [email_from_db: ${user.email}]`);
+            return res.status(500).json({
+                msg:
+                    {
+                        message:`User with email address: \n${req.body.email}\n already exists `,
+                        name: 'ValidationErrorEmail'
+                    }
+            });
+        } else {
+            console.error('[ ERROR ] \n', err);
+            return res.status(400).json({msg: err});
+        }
 
-        })
-
+    })
 });
 
 module.exports = router;

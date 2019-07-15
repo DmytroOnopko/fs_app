@@ -1,13 +1,14 @@
 import React from 'react';
-import EntryImage from '../../components/SignUp/EntryImage'
-import SignUp from '../../components/SignUp/SignUp'
+import Image from '../../components/Entry/Image/Image';
+import SignUp from '../../components/Entry/SignUp/SignUp';
+import './auth.scss';
 
 const Auth = () => {
     return (
         <section className="entry-section">
             <div className="container">
                 <div className="row">
-                    <EntryImage/>
+                    <Image/>
                     <SignUp/>
                 </div>
             </div>

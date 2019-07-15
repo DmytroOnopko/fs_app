@@ -3,6 +3,7 @@ import './HeaderPost.scss';
 import {NavLink} from "react-router-dom";
 
 const HeaderPost = (props) => {
+    
     return(
         <div className="card-header d-flex align-items-center">
             <NavLink to={'profile/'+props.author._id} className="card-header-img">
