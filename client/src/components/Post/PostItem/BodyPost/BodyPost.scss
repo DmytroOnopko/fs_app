@@ -1,0 +1,29 @@
+@import "../../../global";
+
+.card {
+
+  &-img {
+    width: 100%;
+  }
+
+  &-body {
+
+    &__like {
+      font-size: 25px;
+
+      &-count {
+        padding: 8px 0;
+        font-weight: $font-w_600;
+        font-size: $font-s_15;
+      }
+    }
+
+    &-text {
+      font-size: $font-s_15;
+
+      &__login {
+        font-weight: $font-w_600;
+      }
+    }
+  }
+}

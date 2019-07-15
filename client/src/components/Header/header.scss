@@ -1,0 +1,36 @@
+@import "../global";
+
+.header {
+  background-color: $bg-white;
+  border-bottom: $border-style;
+
+  &-container--pd {
+    padding: 26px 15px;
+  }
+
+  &-logo {
+    &__i {
+      color: $item-color;
+
+      &:after {
+        content: "";
+        border-right: 1px solid $item-color;
+        padding: 0 10px;
+      }
+    }
+
+    &__img {
+      &--size {
+        width: 103px;
+        padding-left: 10px;
+      }
+    }
+  }
+
+  &-actions {
+    &__i {
+      color: $item-color;
+    }
+  }
+}
+

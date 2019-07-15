@@ -1,0 +1,28 @@
+@import "../../../global";
+
+.card {
+  &-header {
+    background-color: $bg-white;
+
+    &-img {
+      &__circle {
+        width: 32px;
+        height: 32px;
+        border-radius: 100%;
+      }
+    }
+
+    &-title {
+      margin-left: 15px;
+
+      &__login {
+        font-size: $font-s_15;
+        font-weight: $font-w_600;
+      }
+
+      &__location {
+        font-size: 12px;
+      }
+    }
+  }
+}

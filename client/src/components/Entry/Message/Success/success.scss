@@ -1,0 +1,15 @@
+@import "../../../global";
+
+.success{
+  background-color: $bg-valid-color;
+  border: 1px solid #356d352e;
+  &__title{
+    color: $valid-color-text;
+    font-size: $font-s_15;
+    font-weight: $font-w_500;
+  }
+  &__text{
+    color: $valid-color-text;
+    font-size: $font-s_14;
+  }
+}
