@@ -6,7 +6,7 @@ const usersSchema = new mongoose.Schema({
     email:             { type: String, required: true, unique: true },
     login:             { type: String },
     password:          { type: String, required: true },
-    img_url:           { type: Object },
+    img_url:           { type: String, required: true },
     subscribers_id:   [{ type: mongoose.Schema.Types.ObjectId }],
     subscribed_to_id: [{ type: mongoose.Schema.Types.ObjectId }],
     posts:            [{ type: mongoose.Schema.Types.ObjectId, ref: 'Posts'}]
