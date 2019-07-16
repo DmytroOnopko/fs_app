@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('morgan');
 const db = mongoose.connection;
+const path = require('path');
 
 const { PORT, dbRoute } = require('./dbConfig/config');
 
@@ -13,10 +14,12 @@ const getUser = require('./routes/user/getUser');
 
 
 const app = express();
-
 app.use(cors());
 
-app.use(express.static('./public'));
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/profile/public', express.static(path.join(__dirname, 'public')));
+
+// app.use(express.static('./public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));

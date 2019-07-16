@@ -3,7 +3,8 @@ const {Router} = require('express');
 const router = new Router();
 
 router.get('/user', async (req, res) => {
-    res.send(await User.findById(req.query.ID))
+    await User.findById(req.query.ID)
+        .then(user => res.json(user))
 });
 
 module.exports = router;
