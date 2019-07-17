@@ -14,7 +14,6 @@ class Profile extends Component {
 
     render() {
         let {...user} = this.props.user;
-        console.log(user);
         let getCount = (arr) => !!arr ? arr.length : 0;
 
         return (
@@ -35,7 +34,7 @@ class Profile extends Component {
 
 const mapStateToProps = (store) => {
     return {
-        user: store.user.get('items').toJS(),
+        user: store.user.get('dataDb').toJS(),
         isLoading: store.user.get('isLoading')
     }
 };
