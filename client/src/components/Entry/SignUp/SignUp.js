@@ -20,7 +20,6 @@ class SignUp extends Component {
     };
 
     onChange = (e) => {
-        debugger
         switch (e.target.name) {
             case 'img_url':
                 this.setState({img_url: e.target.files[0]});
@@ -55,7 +54,6 @@ class SignUp extends Component {
     truncateStr = (str, maxlength = 10) => (str.length > maxlength) ? `${str.slice(0, maxlength - 3)} ... .${str.split('.')[1]}` : str;
 
     render() {
-        console.log(this.state);
         const handleForm = () => {
             const { status } = this.props.dataDb;
             if(status === 500){
