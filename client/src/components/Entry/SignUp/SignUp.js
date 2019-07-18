@@ -31,26 +31,137 @@ class SignUp extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-
         const status = this.state.name.length !== 0 &&
             this.state.surname.length !== 0 &&
             this.state.email.length !== 0 &&
             this.state.password.length !== 0 &&
             this.state.img_url.length !== 0;
-
         if(status){
+
             const formData = new FormData();
             for ( let key in this.state ) {
                 formData.append(key, this.state[key]);
             }
-
             this.props.createNewUser(
                 formData
             )
         }
     };
 
+    renderInput = (labelText, classNameInput, typeInput, placeholderInput, valueInput, nameInput, titleInput,autoFocus) => {
+        return(
+            <>
+                <label className="form-block__label mb-1" htmlFor="validationDefault01">{labelText}</label>
+                <input type={typeInput} className={classNameInput} id="validationDefault01"
+                       placeholder={placeholderInput}
+                       onChange={this.onChange}
+                       value={valueInput}
+                       name={nameInput}
+                       title={titleInput}
+                       required/>
+            </>
+        )
+    };
+
+    handleStrError = (nameInput) => {
+        const { name, surname, email, password } = this.state;
+
+        const regExpName = "([A-Za-z]){3,}$";
+        const regExpEmail = "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$";
+        const regExpPassword = "(?=.*)(?=.*[a-z])(?=.*[A-Z]).{8,}";
+
+        const defaultClassName = 'form-block__input form-control rounded';
+        const errorClassName = 'form-block__input-error-str';
+        const successClassName = 'form-block__input-success-str';
+        const typeInput = 'text';
+
+        if(nameInput === 'name'){
+
+            const labelText = 'Name:';
+            const placeholderInput  = 'Jon';
+            const nameInput = 'name';
+            const titleInput = 'Must contain only character';
+
+            if(name.length === 0){
+                return this.renderInput( labelText, defaultClassName, typeInput, placeholderInput, name, nameInput, titleInput)
+            }else if(!name.match(regExpName)){
+                return this.renderInput(labelText,`${defaultClassName} ${errorClassName}`, typeInput, placeholderInput, name, nameInput, titleInput)
+            }else {
+                return this.renderInput(labelText,`${defaultClassName} ${successClassName}`, typeInput, placeholderInput, name, nameInput, titleInput)
+            }
+        }else if(nameInput === 'surname'){
+
+            const labelText = 'Surname:';
+            const placeholderInput  = 'Dow';
+            const nameInput = 'surname';
+            const titleInput = 'Must contain only character';
+
+            if(surname.length === 0){
+                return this.renderInput( labelText, defaultClassName, typeInput, placeholderInput, surname, nameInput, titleInput)
+            }else if(!surname.match(regExpName)){
+                return this.renderInput(labelText,`${defaultClassName} ${errorClassName}`,  typeInput, placeholderInput, surname, nameInput, titleInput)
+            }else {
+                return this.renderInput(labelText, `${defaultClassName} ${successClassName}`,  typeInput, placeholderInput, surname, nameInput, titleInput)
+            }
+        }else if(nameInput === 'email'){
+
+            const labelText = 'email:';
+            const placeholderInput  = 'example@gmail.com';
+            const nameInput = 'email';
+            const titleInput = 'Must be in the following order: example@gmail.com';
+
+            if(email.length === 0){
+                return this.renderInput( labelText, defaultClassName, typeInput, placeholderInput, email, nameInput, titleInput)
+            }else if(!email.match(regExpEmail)){
+                return this.renderInput(labelText,`${defaultClassName} ${errorClassName}`, typeInput, placeholderInput, email, nameInput, titleInput)
+            }else {
+                return this.renderInput(labelText,`${defaultClassName} ${successClassName}`,  typeInput, placeholderInput, email, nameInput, titleInput)
+            }
+        }else if(nameInput === 'password'){
+
+            const labelText =  <>password:<p className="form-block__text">Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</p></>
+            const placeholderInput  = '********';
+            const nameInput = 'password';
+            const titleInput = 'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters';
+
+            if(password.length === 0){
+                return this.renderInput( labelText, defaultClassName,typeInput, placeholderInput, password, nameInput, titleInput)
+            }else if(!password.match(regExpPassword)){
+                return this.renderInput(labelText,`${defaultClassName} ${errorClassName}`,  typeInput, placeholderInput, password, nameInput, titleInput)
+            }else {
+                return this.renderInput(labelText,`${defaultClassName} ${successClassName}`,  typeInput, placeholderInput, password, nameInput, titleInput)
+            }
+        }
+    };
+
     truncateStr = (str, maxlength = 10) => (str.length > maxlength) ? `${str.slice(0, maxlength - 3)} ... .${str.split('.')[1]}` : str;
+
+    renderInputUploadFile = (className, msg = '') => {
+        const {img_url} = this.state;
+        return(
+            <label className={className} htmlFor="customFileLangHTML"
+                   data-browse="Upload">
+                <span className="form-block__span">{!!img_url ?  `${this.truncateStr(img_url.name)}${msg}` : 'Upload file'}</span>
+                <input type="file" className="custom-file-input file-path validate" id="customFileLangHTML"
+                       title="Must contain path to your image"
+                       onChange={this.onChange}
+                       name="img_url"/>
+            </label>
+        )
+    };
+
+    handleImgError = () => {
+        const {img_url} = this.state;
+        if(img_url.length === 0) {
+            return this.renderInputUploadFile('form-block__label form-block__label-default custom-file-label')
+        }else if(img_url.size > 1024*1024*5){
+            return this.renderInputUploadFile('form-block__label form-block__label-error-size custom-file-label', '-[SIZE ERROR]')
+        }else if(img_url.type !== 'image/jpeg' && img_url.type !== 'image/png'){
+            return this.renderInputUploadFile('form-block__label form-block__label-error-type custom-file-label', '-[TYPE ERROR]')
+        }else {
+            return this.renderInputUploadFile('form-block__label form-block__label-success custom-file-label')
+        }
+    };
 
     render() {
         const handleForm = () => {
@@ -64,70 +175,26 @@ class SignUp extends Component {
             }else if(status === 200){
                 return <Success/>;
             }else{
-                const {name, surname, email, password, img_url } = this.state;
                 return(
                     <>
                         <div className="form-block input-group d-flex flex-column mb-2">
-                            <label className="form-block__label mb-1" htmlFor="validationDefault01">Name:</label>
-                            <input type="text" className="form-block__input form-control rounded" id="validationDefault01"
-                                   placeholder="Jon"
-                                   onChange={this.onChange}
-                                   value={name}
-                                   name="name"
-                                   pattern="([A-Za-z]){2,}"
-                                   title="Must contain only character"
-                                   autoFocus required/>
+                            {this.handleStrError('name')}
                         </div>
 
                         <div className="form-block input-group d-flex flex-column mb-2">
-                            <label className="form-block__label mb-1" htmlFor="validationDefault02">Surname:</label>
-                            <input type="text" className="form-block__input form-control rounded" id="validationDefault02"
-                                   placeholder="Dow"
-                                   onChange={this.onChange}
-                                   value={surname}
-                                   name="surname"
-                                   pattern="([A-Za-z]){3,}"
-                                   title="Must contain only character"
-                                   required/>
+                            {this.handleStrError('surname')}
                         </div>
 
                         <div className="form-block input-group d-flex flex-column mb-2">
-                            <label className="form-block__label mb-1" htmlFor="validationDefault03">email:
-                            </label>
-                            <input type="text" className="form-block__input form-control rounded" id="validationDefault03"
-                                   placeholder="example@gmail.com"
-                                   onChange={this.onChange}
-                                   value={email}
-                                   name="email"
-                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                   title="Must be in the following order: example@gmail.com"
-                                   required/>
+                            {this.handleStrError('email')}
                         </div>
 
                         <div className="form-block input-group mb-4 d-flex flex-column">
-                            <label className="form-block__label mb-1" htmlFor="validationDefault04">password:
-                                <p className="form-block__text">Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</p>
-                            </label>
-                            <input type="password" className="form-block__input form-control rounded" id="validationDefault04"
-                                   placeholder="********"
-                                   onChange={this.onChange}
-                                   value={password}
-                                   name="password"
-                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                   title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                                   required/>
+                            {this.handleStrError('password')}
                         </div>
 
                         <div className="form-block custom-file mb-3">
-                            <label className="form-block__label custom-file-label" htmlFor="customFileLangHTML"
-                                   data-browse="Upload">
-                                <span>{!!img_url ?  this.truncateStr(img_url.name) : 'Upload file'}</span>
-                            <input type="file" className="custom-file-input file-path validate" id="customFileLangHTML"
-                                   title="Must contain path to your image"
-                                   onChange={this.onChange}
-                                   name="img_url"/>
-                            </label>
-
+                            {this.handleImgError()}
                         </div>
 
                         <button type="submit" className="form-wrap__button btn btn-primary btn-lg btn-block">Sign up</button>
@@ -155,10 +222,12 @@ class SignUp extends Component {
 }
 
 const mapStateToProps = (store) => {
+
     return {dataDb: store.user.get('dataDb').toJS()}
 };
 
 const mapDispatchToProps = (dispatch) => {
+
     return {createNewUser: (user) => dispatch(addUserToDb(user))};
 };
 

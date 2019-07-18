@@ -35,6 +35,7 @@ export const getUserFromDb = (userId) => {
 
 export const addUserToDb =  (user) =>{
     return dispatch => {
+
         axios
             .post(url + '/api/user', user)
             .then(data => {
