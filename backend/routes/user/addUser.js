@@ -5,6 +5,7 @@ const path = require('path');
 const multerWare = require('../../middlewares/multer.ware');
 
 router.post('/user', multerWare, (req, res) => {
+
     res.set('Content-Type', 'application/json');
 
     User.findOne({email: req.body.email}, (err, user) => {

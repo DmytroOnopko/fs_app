@@ -19,9 +19,9 @@
 
   &-btn {
     background-color: transparent;
+    border: $border-style;
     border-radius: 3px;
-    border-color: #dbdbdb;
-    color: #262626;
+    color: $item-color-text;
     padding: 0 30px 0 30px;
     font-weight: $font-w_600;
   }
