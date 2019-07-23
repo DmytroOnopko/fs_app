@@ -1,143 +1,245 @@
 import React, {Component} from 'react';
-import logo from '../Header/img/logo.svg.png'
-import './entry.scss';
-import { addUserToDb } from '../../action/user.action';
+import {addUserToDb} from '../../action/user.action';
 import {connect} from 'react-redux';
+import Success from "../Message/Success/Success";
+import Error from "../Message/Error/Error";
+import logo from '../Header/img/logo.svg.png'
+import './signUp.scss';
+import Action from "../Action";
 
-
-class SignUp extends Component{
+class SignUp extends Component {
 
     state = {
-        name:             '',
-        surname:          '',
-        email:            '',
-        login:            '',
-        password:         '',
-        img_url:          '',
-        subscribers_id:   [],
+        name: '',
+        surname: '',
+        email: '',
+        password: '',
+        img_url: '',
+        subscribers_id: [],
         subscribed_to_id: [],
-        posts:            []
+        posts: []
     };
 
-    handleChangeInfo = (e) => {
-        this.setState({
-            [e.target.name]:e.target.value,
-        })
+    onChangeSignUp = (e) => {
+        switch (e.target.name) {
+            case 'img_url':
+                this.setState({img_url: e.target.files[0]});
+                break;
+            default:
+                this.setState({[e.target.name]: e.target.value});
+        }
     };
 
-    createUser = (e) => {
+    onSubmitSignUp = (e) => {
         e.preventDefault();
-        this.props.newUser(
-            this.state.name,
-            this.state.surname,
-            this.state.email,
-            this.state.login,
-            this.state.password,
-            this.state.img_url,
-            this.state.subscribers_id,
-            this.state.subscribed_to_id,
-            this.state.posts
-        );
-        this.clearInput();
+        const status = this.state.name.length !== 0 &&
+            this.state.surname.length !== 0 &&
+            this.state.email.length !== 0 &&
+            this.state.password.length !== 0 &&
+            this.state.img_url.length !== 0;
+        if(status){
+
+            const formData = new FormData();
+            for ( let key in this.state ) {
+                formData.append(key, this.state[key]);
+            }
+            this.props.createNewUser(
+                formData
+            );
+
+            this.setState({
+                name: '',
+                surname: '',
+                email: '',
+                password: '',
+                img_url: ''
+            });
+        }
     };
 
-    clearInput = () => {
-        this.setState({
-            name:             '',
-            surname:          '',
-            email:            '',
-            login:            '',
-            password:         '',
-            img_url:          '',
-            subscribers_id:   [],
-            subscribed_to_id: [],
-            posts:            []
-        });
+
+    renderInputSignUp = (labelText, classNameInput, typeInput, placeholderInput, valueInput, nameInput, titleInput) => {
+        return(
+            <>
+                <label className="form-block__label mb-1" htmlFor="validationDefault01">{labelText}</label>
+                <input type={typeInput} className={classNameInput} id="validationDefault01"
+                       placeholder={placeholderInput}
+                       onChange={this.onChangeSignUp}
+                       value={valueInput}
+                       name={nameInput}
+                       title={titleInput}
+                       required/>
+            </>
+        )
+    };
+
+    handleInputSignUp = (nameInput) => {
+        const { name, surname, email, password } = this.state;
+
+        const regExpName = "([A-Za-z]){3,}$";
+        const regExpEmail = "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$";
+        const regExpPassword = "(?=.*)(?=.*[a-z])(?=.*[A-Z]).{8,}";
+
+        const defaultClassName = 'form-block__input form-control rounded';
+        const errorClassName = 'form-block__input-error-str';
+        const successClassName = 'form-block__input-success-str';
+        const typeInput = 'text';
+
+        if(nameInput === 'name'){
+
+            const labelText = 'Name:';
+            const placeholderInput  = 'John';
+            const nameInput = 'name';
+            const titleInput = 'Must contain only character';
+
+            if(name.length === 0){
+                return this.renderInputSignUp( labelText, defaultClassName, typeInput, placeholderInput, name, nameInput, titleInput)
+            }else if(!name.match(regExpName)){
+                return this.renderInputSignUp(labelText,`${defaultClassName} ${errorClassName}`, typeInput, placeholderInput, name, nameInput, titleInput)
+            }else {
+                return this.renderInputSignUp(labelText,`${defaultClassName} ${successClassName}`, typeInput, placeholderInput, name, nameInput, titleInput)
+            }
+        }else if(nameInput === 'surname'){
+
+            const labelText = 'Surname:';
+            const placeholderInput  = 'Doe';
+            const nameInput = 'surname';
+            const titleInput = 'Must contain only character';
+
+            if(surname.length === 0){
+                return this.renderInputSignUp( labelText, defaultClassName, typeInput, placeholderInput, surname, nameInput, titleInput)
+            }else if(!surname.match(regExpName)){
+                return this.renderInputSignUp(labelText,`${defaultClassName} ${errorClassName}`,  typeInput, placeholderInput, surname, nameInput, titleInput)
+            }else {
+                return this.renderInputSignUp(labelText, `${defaultClassName} ${successClassName}`,  typeInput, placeholderInput, surname, nameInput, titleInput)
+            }
+        }else if(nameInput === 'email'){
+
+            const labelText = 'email:';
+            const placeholderInput  = 'example@gmail.com';
+            const nameInput = 'email';
+            const titleInput = 'Must be in the following order: example@gmail.com';
+
+            if(email.length === 0){
+                return this.renderInputSignUp( labelText, defaultClassName, typeInput, placeholderInput, email, nameInput, titleInput)
+            }else if(!email.match(regExpEmail)){
+                return this.renderInputSignUp(labelText,`${defaultClassName} ${errorClassName}`, typeInput, placeholderInput, email, nameInput, titleInput)
+            }else {
+                return this.renderInputSignUp(labelText,`${defaultClassName} ${successClassName}`,  typeInput, placeholderInput, email, nameInput, titleInput)
+            }
+        }else if(nameInput === 'password'){
+
+            const labelText =  <>password:<p className="form-block__text">Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</p></>
+            const placeholderInput  = '********';
+            const nameInput = 'password';
+            const titleInput = 'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters';
+
+            if(password.length === 0){
+                return this.renderInputSignUp( labelText, defaultClassName,typeInput, placeholderInput, password, nameInput, titleInput)
+            }else if(!password.match(regExpPassword)){
+                return this.renderInputSignUp(labelText,`${defaultClassName} ${errorClassName}`,  typeInput, placeholderInput, password, nameInput, titleInput)
+            }else {
+                return this.renderInputSignUp(labelText,`${defaultClassName} ${successClassName}`,  typeInput, placeholderInput, password, nameInput, titleInput)
+            }
+        }
+    };
+
+    truncateStr = (str, maxlength = 10) => (str.length > maxlength) ? `${str.slice(0, maxlength - 3)} ... .${str.split('.')[1]}` : str;
+
+    renderInputUploadFileSignUp = (className, msg = '') => {
+        const {img_url} = this.state;
+        return(
+            <label className={className} htmlFor="customFileLangHTML"
+                   data-browse="Upload">
+                <span className="form-block__span">{!!img_url ?  `${this.truncateStr(img_url.name)}${msg}` : 'Upload file'}</span>
+                <input type="file" className="custom-file-input file-path validate" id="customFileLangHTML"
+                       title="Must contain path to your image"
+                       onChange={this.onChangeSignUp}
+                       name="img_url"/>
+            </label>
+        )
+    };
+
+    handleInputUploadFileSignUp = () => {
+        const {img_url} = this.state;
+        if(img_url.length === 0) {
+            return this.renderInputUploadFileSignUp('form-block__label form-block__label-default custom-file-label')
+        }else if(img_url.size > 1024*1024*5){
+            return this.renderInputUploadFileSignUp('form-block__label form-block__label-error-size custom-file-label', '-[SIZE ERROR]')
+        }else if(img_url.type !== 'image/jpeg' && img_url.type !== 'image/png'){
+            return this.renderInputUploadFileSignUp('form-block__label form-block__label-error-type custom-file-label', '-[TYPE ERROR]')
+        }else {
+            return this.renderInputUploadFileSignUp('form-block__label form-block__label-success custom-file-label')
+        }
     };
 
     render() {
+        const renderFormSignUp = () => {
+            return(
+                <>
+                    <div className="form-block input-group d-flex flex-column mb-2">
+                        {this.handleInputSignUp('name')}
+                    </div>
+
+                    <div className="form-block input-group d-flex flex-column mb-2">
+                        {this.handleInputSignUp('surname')}
+                    </div>
+
+                    <div className="form-block input-group d-flex flex-column mb-2">
+                        {this.handleInputSignUp('email')}
+                    </div>
+
+                    <div className="form-block input-group mb-4 d-flex flex-column">
+                        {this.handleInputSignUp('password')}
+                    </div>
+
+                    <div className="form-block custom-file mb-3">
+                        {this.handleInputUploadFileSignUp()}
+                    </div>
+
+                    <Action buttonText={'Sign Up'} link={'/login'} linkText={'Log in'}/>
+
+                </>
+            );
+        };
+
+        const handlerFormSignUp = () =>{
+            const { status } = this.props.dataDb;
+            console.log(status);
+            if(status === 500){
+                const { msg } = this.props.dataDb.data;
+                return (
+                    <>
+                        <Error msg={msg}/>
+                        {renderFormSignUp()}
+                    </>
+                )
+            }else if(status === 400){
+                const { msg } = this.props.dataDb.data;
+                return (
+                    <>
+                        <Error msg={msg}/>
+                        {renderFormSignUp()}
+                    </>
+                )
+            }else if(status === 200){
+                return(
+                  <>
+                      <Success/>
+                      {renderFormSignUp()}
+                  </>
+                )
+            }else{
+                return renderFormSignUp()
+            }
+        };
+
         return (
-            <div className="col-6 d-flex align-items-center">
-                <form className="form">
-                    <div className="form-wrap">
+            <div className="col-md-6 d-flex align-items-center">
+                <form className="form" onSubmit={this.onSubmitSignUp}>
+                    <div className="form-wrap rounded">
                         <img className="form__img--size" src={logo} alt="logo"/>
-                        <div className="input-group mb-3">
-                            <input type="text"
-                                   className="form-control"
-                                   name="name"
-                                   onChange={this.handleChangeInfo}
-                                   placeholder="Your name"
-                                   aria-label="name"
-                                   aria-describedby="basic-addon1"
-                                   value={this.state.name}
-                            />
-                        </div>
-
-                        <div className="input-group mb-3">
-                            <input type="text"
-                                   className="form-control"
-                                   name="surname"
-                                   onChange={this.handleChangeInfo}
-                                   placeholder="Your surname"
-                                   aria-label="surname"
-                                   aria-describedby="basic-addon2"
-                                   value={this.state.surname}
-                            />
-                        </div>
-
-                        <div className="input-group mb-3">
-                            <input type="text"
-                                   className="form-control"
-                                   name="email"
-                                   onChange={this.handleChangeInfo}
-                                   placeholder="Your email"
-                                   aria-label="email"
-                                   aria-describedby="basic-addon1"
-                                   value={this.state.email}
-                            />
-                        </div>
-
-                        <div className="input-group mb-3">
-                            <input type="text"
-                                   className="form-control"
-                                   name="login"
-                                   onChange={this.handleChangeInfo}
-                                   placeholder="Your login"
-                                   aria-label="login"
-                                   aria-describedby="basic-addon2"
-                                   value={this.state.login}
-                            />
-                        </div>
-
-                        <div className="input-group mb-3">
-                            <input type="password"
-                                   className="form-control"
-                                   name="password"
-                                   onChange={this.handleChangeInfo}
-                                   placeholder="Your password"
-                                   aria-label="password"
-                                   aria-describedby="basic-addon2"
-                                   value={this.state.password}
-                            />
-                        </div>
-
-                        {/*<div className="custom-file mb-3">*/}
-                        {/*<input type="file" className="custom-file-input" onChange={this.handleChangeInfo} id="customFileLangHTML"/>*/}
-                        {/*<label className="custom-file-label" htmlFor="customFileLangHTML" data-browse="Upload">Upload your image</label>*/}
-                        {/*</div>*/}
-
-                        <button type="submit"
-                                className="btn btn-primary btn-lg btn-block"
-                                onClick={this.createUser}
-                        >Sign up</button>
-
-                        <span className="form-wrap__divider my-3">or</span>
-
-                        <a href="http://localhost:3000/"
-                           className="btn btn-secondary btn-lg btn-block"
-                           role="button"
-                           aria-pressed="true"
-                        >Log in</a>
+                        {handlerFormSignUp()}
                     </div>
                 </form>
             </div>
@@ -145,32 +247,12 @@ class SignUp extends Component{
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return{
-        newUser: (
-            name,
-            surname,
-            email,
-            login,
-            password,
-            img_url,
-            subscribers_id,
-            subscribed_to_id,
-            posts
-        ) => dispatch(
-                addUserToDb(
-                    name,
-                    surname,
-                    email,
-                    login,
-                    password,
-                    img_url,
-                    subscribers_id,
-                    subscribed_to_id,
-                    posts
-                )
-        )
-    }
+const mapStateToProps = (store) => {
+    return {dataDb: store.user.get('dataDb').toJS()}
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+const mapDispatchToProps = (dispatch) => {
+    return {createNewUser: (user) => dispatch(addUserToDb(user))};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

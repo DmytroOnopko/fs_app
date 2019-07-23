@@ -1,18 +1,23 @@
 import React from 'react';
-import Image from '../../components/Entry/Image/Image';
-import SignUp from '../../components/Entry/SignUp/SignUp';
+import Image from '../../components/Image/Image';
+import SignUp from '../../components/SignUp/SignUp';
+import {BrowserRouter, Route} from 'react-router-dom';
 import './auth.scss';
+import LogIn from "../../components/LogIn/LogIn";
 
 const Auth = () => {
     return (
-        <section className="entry-section">
-            <div className="container">
-                <div className="row">
-                    <Image/>
-                    <SignUp/>
+        <BrowserRouter>
+            <section className="entry-section">
+                <div className="container">
+                    <div className="row">
+                        <Image/>
+                        <Route exact path="/" component={SignUp}/>
+                        <Route path="/login" component={LogIn}/>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </BrowserRouter>
     );
 };
 
