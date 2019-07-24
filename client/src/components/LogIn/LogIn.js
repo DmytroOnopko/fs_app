@@ -11,11 +11,17 @@ class LogIn extends Component {
     state = {
         email: '',
         password: '',
-        status: ''
+        show: false,
     };
 
     onChangeLogIn = (e) => {
         this.setState({[e.target.name]: e.target.value});
+    };
+
+    onClickLogIn = () => {
+        this.setState({
+            show: false,
+        });
     };
 
     onSubmitLogIn = (e) => {
@@ -25,15 +31,13 @@ class LogIn extends Component {
             this.props.checkUser(
                 this.state
             );
-            this.setState({
+            return this.setState({
                 email: '',
                 password: '',
+                show: true,
             });
-
         }
     };
-
-
 
     renderInputLogIn = (labelText, classNameInput, typeInput, placeholderInput, valueInput, nameInput, titleInput) => {
         return(
@@ -104,43 +108,44 @@ class LogIn extends Component {
                             {this.handleInputLogIn('password')}
                         </div>
 
-                        <Action buttonText={'Log in'} link={'/'} linkText={'Sign Up'}/>
+                        <Action buttonText={'Log in'} link={'/'} linkText={'Sign Up'} onClick={this.onClickLogIn}/>
 
                     </>
                 )
         };
         const handleFormLogIn = () =>{
+            if(this.state.show){
+                const { status } = this.props.checkedDataDb;
+                if(status === 500){
+                    const { msg } = this.props.checkedDataDb.data;
+                    return(
+                        <>
+                            <Error msg={msg}/>
+                            {renderFormLogIn()}
+                        </>
+                    );
+                }else if(status === 400){
+                    const { msg } = this.props.checkedDataDb.data;
+                    return(
+                        <>
+                            <Error msg={msg}/>
+                            {renderFormLogIn()}
+                        </>
 
-            console.log(this.state);
-            const { status } = this.props.checkedDataDb;
-            if(status === 500){
-                const { msg } = this.props.checkedDataDb.data;
-                return(
-                    <>
-                        <Error msg={msg}/>
-                        {renderFormLogIn()}
-                    </>
-                );
-            }else if(status === 400){
-                const { msg } = this.props.checkedDataDb.data;
-                return(
-                    <>
-                        <Error msg={msg}/>
-                        {renderFormLogIn()}
-                    </>
-
-                );
-            }else if(status === 200){
-                return(
-                    <>
-                        <Success/>
-                        {renderFormLogIn()}
-                    </>
-                );
+                    );
+                }else if(status === 200){
+                    return(
+                        <>
+                            <Success/>
+                            {renderFormLogIn()}
+                        </>
+                    );
+                }
             }else{
                 return renderFormLogIn();
             }
         };
+
 
         return (
             <div className="col-md-6 d-flex align-items-center">

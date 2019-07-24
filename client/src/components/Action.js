@@ -9,7 +9,8 @@ function Action(props) {
             <span className="form-wrap__divider my-3">or</span>
 
             <NavLink to={props.link} className="form-wrap__link btn btn-secondary btn-lg btn-block"
-                     role="button" aria-pressed="true">{props.linkText}</NavLink>
+                     role="button" aria-pressed="true"
+            onClick={props.onClickSignUp && props.onClickLogIn}>{props.linkText}</NavLink>
         </>
     );
 }

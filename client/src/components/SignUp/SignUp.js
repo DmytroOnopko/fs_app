@@ -17,7 +17,8 @@ class SignUp extends Component {
         img_url: '',
         subscribers_id: [],
         subscribed_to_id: [],
-        posts: []
+        posts: [],
+        show: false,
     };
 
     onChangeSignUp = (e) => {
@@ -30,6 +31,12 @@ class SignUp extends Component {
         }
     };
 
+    onClickSignUp = () => {
+        this.setState({
+            show: false,
+        });
+    };
+
     onSubmitSignUp = (e) => {
         e.preventDefault();
         const status = this.state.name.length !== 0 &&
@@ -38,7 +45,6 @@ class SignUp extends Component {
             this.state.password.length !== 0 &&
             this.state.img_url.length !== 0;
         if(status){
-
             const formData = new FormData();
             for ( let key in this.state ) {
                 formData.append(key, this.state[key]);
@@ -46,13 +52,13 @@ class SignUp extends Component {
             this.props.createNewUser(
                 formData
             );
-
-            this.setState({
+            return this.setState({
                 name: '',
                 surname: '',
                 email: '',
                 password: '',
-                img_url: ''
+                img_url: '',
+                show: true,
             });
         }
     };
@@ -197,38 +203,40 @@ class SignUp extends Component {
                         {this.handleInputUploadFileSignUp()}
                     </div>
 
-                    <Action buttonText={'Sign Up'} link={'/login'} linkText={'Log in'}/>
+                    <Action buttonText={'Sign Up'} link={'/login'} linkText={'Log in'} onClick={this.onClickSignUp}/>
 
                 </>
             );
         };
 
         const handlerFormSignUp = () =>{
-            const { status } = this.props.dataDb;
-            console.log(status);
-            if(status === 500){
-                const { msg } = this.props.dataDb.data;
-                return (
-                    <>
-                        <Error msg={msg}/>
-                        {renderFormSignUp()}
-                    </>
-                )
-            }else if(status === 400){
-                const { msg } = this.props.dataDb.data;
-                return (
-                    <>
-                        <Error msg={msg}/>
-                        {renderFormSignUp()}
-                    </>
-                )
-            }else if(status === 200){
-                return(
-                  <>
-                      <Success/>
-                      {renderFormSignUp()}
-                  </>
-                )
+            console.log('1', this.state);
+            if(this.state.show){
+                const { status } = this.props.dataDb;
+                if(status === 500){
+                    const { msg } = this.props.dataDb.data;
+                    return (
+                        <>
+                            <Error msg={msg}/>
+                            {renderFormSignUp()}
+                        </>
+                    )
+                }else if(status === 400){
+                    const { msg } = this.props.dataDb.data;
+                    return (
+                        <>
+                            <Error msg={msg}/>
+                            {renderFormSignUp()}
+                        </>
+                    )
+                }else if(status === 200){
+                    return(
+                        <>
+                            <Success/>
+                            {renderFormSignUp()}
+                        </>
+                    )
+                }
             }else{
                 return renderFormSignUp()
             }
