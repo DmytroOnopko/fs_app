@@ -40,7 +40,7 @@ export const getUserFromDb = (userId) => {
 export const checkUserFromDb = (user) => {
   return dispatch => {
       axios
-          .post(url + '/login', user)
+          .post(url + '/api/login', user)
           .then(data => {
               dispatch({
                   type: CHECK_USER_SUCCESS,

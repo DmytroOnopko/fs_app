@@ -9,34 +9,42 @@ import Action from "../Action";
 class LogIn extends Component {
 
     state = {
-        email: '',
-        password: '',
+        user: {
+            email: '',
+            password: '',
+        },
         show: false,
     };
 
     onChangeLogIn = (e) => {
-        this.setState({[e.target.name]: e.target.value});
+        let newState = {...this.state};
+        newState.user[e.target.name] = e.target.value;
+        this.setState(newState);
     };
 
     onClickLogIn = () => {
-        this.setState({
-            show: false,
-        });
+        let newState = {...this.state};
+        newState.show = false;
+        this.setState(newState);
     };
 
     onSubmitLogIn = (e) => {
         e.preventDefault();
-        const status = this.state.email.length !== 0 && this.state.password.length !== 0;
+        const status = this.state.user.email.length !== 0 && this.state.user.password.length !== 0;
         if(status){
             this.props.checkUser(
-                this.state
+                {...this.state.user}
             );
-            return this.setState({
-                email: '',
-                password: '',
-                show: true,
-            });
+            this.clearStateLogIn()
         }
+    };
+
+    clearStateLogIn = () =>{
+        let newState = {...this.state};
+        newState.user.email = '';
+        newState.user.password = '';
+        newState.show = true;
+        return this.setState(newState);
     };
 
     renderInputLogIn = (labelText, classNameInput, typeInput, placeholderInput, valueInput, nameInput, titleInput) => {
@@ -55,7 +63,8 @@ class LogIn extends Component {
     };
 
     handleInputLogIn = (nameInput) => {
-        const { email, password } = this.state;
+        console.log(this.state);
+        const { email, password } = this.state.user;
 
         const regExpEmail = "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$";
         const regExpPassword = "(?=.*)(?=.*[a-z])(?=.*[A-Z]).{8,}";
@@ -97,6 +106,7 @@ class LogIn extends Component {
     };
 
     render() {
+        console.log(this.state);
         const renderFormLogIn = () => {
             return(
                     <>

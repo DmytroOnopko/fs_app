@@ -10,57 +10,65 @@ import Action from "../Action";
 class SignUp extends Component {
 
     state = {
-        name: '',
-        surname: '',
-        email: '',
-        password: '',
-        img_url: '',
-        subscribers_id: [],
-        subscribed_to_id: [],
-        posts: [],
+        user:{
+            name: '',
+            surname: '',
+            email: '',
+            password: '',
+            img_url: '',
+            subscribers_id: [],
+            subscribed_to_id: [],
+            posts: [],
+        },
         show: false,
     };
 
     onChangeSignUp = (e) => {
+        let newState = {...this.state};
         switch (e.target.name) {
             case 'img_url':
-                this.setState({img_url: e.target.files[0]});
+                newState.user.img_url = e.target.files[0];
                 break;
             default:
-                this.setState({[e.target.name]: e.target.value});
+                newState.user[e.target.name] = e.target.value;
         }
+        this.setState(newState);
     };
 
     onClickSignUp = () => {
-        this.setState({
-            show: false,
-        });
+        let newState = {...this.state};
+        newState.show = false;
+        this.setState(newState);
     };
 
     onSubmitSignUp = (e) => {
         e.preventDefault();
-        const status = this.state.name.length !== 0 &&
-            this.state.surname.length !== 0 &&
-            this.state.email.length !== 0 &&
-            this.state.password.length !== 0 &&
-            this.state.img_url.length !== 0;
+        const status = this.state.user.name.length !== 0 &&
+            this.state.user.surname.length !== 0 &&
+            this.state.user.email.length !== 0 &&
+            this.state.user.password.length !== 0 &&
+            this.state.user.img_url.length !== 0;
         if(status){
             const formData = new FormData();
-            for ( let key in this.state ) {
-                formData.append(key, this.state[key]);
+            for ( let key in this.state.user ) {
+                formData.append(key, this.state.user[key]);
             }
             this.props.createNewUser(
                 formData
             );
-            return this.setState({
-                name: '',
-                surname: '',
-                email: '',
-                password: '',
-                img_url: '',
-                show: true,
-            });
+            this.clearStateSignUp();
         }
+    };
+
+    clearStateSignUp = () =>{
+        let newState = {...this.state};
+        newState.user.name = '';
+        newState.user.surname = '';
+        newState.user.email = '';
+        newState.user.password = '';
+        newState.user.img_url = '';
+        newState.show = true;
+        return this.setState(newState);
     };
 
 
@@ -80,7 +88,7 @@ class SignUp extends Component {
     };
 
     handleInputSignUp = (nameInput) => {
-        const { name, surname, email, password } = this.state;
+        const { name, surname, email, password } = this.state.user;
 
         const regExpName = "([A-Za-z]){3,}$";
         const regExpEmail = "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$";
@@ -153,7 +161,7 @@ class SignUp extends Component {
     truncateStr = (str, maxlength = 10) => (str.length > maxlength) ? `${str.slice(0, maxlength - 3)} ... .${str.split('.')[1]}` : str;
 
     renderInputUploadFileSignUp = (className, msg = '') => {
-        const {img_url} = this.state;
+        const {img_url} = this.state.user;
         return(
             <label className={className} htmlFor="customFileLangHTML"
                    data-browse="Upload">
@@ -167,7 +175,7 @@ class SignUp extends Component {
     };
 
     handleInputUploadFileSignUp = () => {
-        const {img_url} = this.state;
+        const {img_url} = this.state.user;
         if(img_url.length === 0) {
             return this.renderInputUploadFileSignUp('form-block__label form-block__label-default custom-file-label')
         }else if(img_url.size > 1024*1024*5){
