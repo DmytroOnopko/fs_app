@@ -7,11 +7,14 @@ import Profile from "./components/Profile/Profile";
 
 const App = () => {
     return (
-        <BrowserRouter>
-            <Route exact path='/' component={Auth}/>
-            <Route path='/post' component={Main}/>
-            <Route path='/profile/:userId' component={Profile} />
-        </BrowserRouter>
+        <>
+            <BrowserRouter>
+                <Route exact path='/' component={Auth}/>
+                <Route path='/login' component={Auth}/>
+                <Route path='/post' component={Main}/>
+                <Route path='/profile/:userId' component={Profile} />
+            </BrowserRouter>
+        </>
     );
 };
 
