@@ -1,17 +1,18 @@
-const axios = require('axios');
-const url = 'http://localhost:3001';
+const instanceAxios = require('./axios/instanceAxios');
 
 export const GET_POST_LOADING = 'GET_POST_LOADING';
 export const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
 export const GET_POST_ERROR = 'GET_POST_ERROR';
 
 export const getPostFromDb = () => {
+
     return dispatch => {
         dispatch({
             type: GET_POST_LOADING
         });
-        axios
-            .get(url + '/post')
+
+        instanceAxios
+            .get('/post')
             .then(({data}) => {
                 dispatch({
                     type: GET_POST_SUCCESS,

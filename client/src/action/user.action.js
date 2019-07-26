@@ -1,5 +1,4 @@
-const axios = require('axios');
-const url = 'http://localhost:3001';
+const instanceAxios = require('./axios/instanceAxios');
 
 export const GET_USER_LOADING = 'GET_USER_LOADING';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
@@ -16,8 +15,8 @@ export const getUserFromDb = (userId) => {
         dispatch({
             type: GET_USER_LOADING
         });
-        axios
-            .get(url + '/user', {
+        instanceAxios
+            .get('/user', {
                 params: {
                     ID: userId
                 }
@@ -39,9 +38,11 @@ export const getUserFromDb = (userId) => {
 
 export const checkUserFromDb = (user) => {
   return dispatch => {
-      axios
-          .post(url + '/login', user)
+      instanceAxios
+          .post('/api/login', user)
           .then(data => {
+              window.localStorage.setItem('token', data.data.token);
+              console.log(data);
               dispatch({
                   type: CHECK_USER_SUCCESS,
                   payload: data
@@ -58,9 +59,8 @@ export const checkUserFromDb = (user) => {
 
 export const addUserToDb =  (user) =>{
     return dispatch => {
-
-        axios
-            .post(url + '/api/user', user)
+        instanceAxios
+            .post('/api/user', user)
             .then(data => {
                 dispatch({
                     type: CREATE_USER_SUCCESS,
