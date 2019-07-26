@@ -162,7 +162,7 @@ class LogIn extends Component {
 
 const mapStateToProps = (store) => {
     return {checkedDataDb: store.user.get('checkedDataDb').toJS()}
-};
+};git
 
 const mapDispatchToProps = (dispatch) => {
 
