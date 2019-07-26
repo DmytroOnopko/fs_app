@@ -11,5 +11,9 @@
   &__text{
     color: $valid-color-text;
     font-size: $font-s_14;
+    &--bold{
+      font-weight: $font-w_600;
+      text-decoration: underline;
+    }
   }
 }

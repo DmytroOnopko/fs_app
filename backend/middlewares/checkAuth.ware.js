@@ -2,20 +2,25 @@ const jwt = require('jsonwebtoken');
 const {secret} = require('../secretKey');
 
 const checkAuth = (req, res, next) => {
-    const token =
-        req.body.token ||
-        req.query.token ||
-        req.headers['x-access-token'] ||
-        req.cookies.token;
-    console.log('token: ',req.body);
+    const token = req.get('Authorization');
     if (!token) {
-        res.status(401).send('Unauthorized: No token provided');
+        res.status(401).json({
+            msg: {
+                message: 'No token provided. Please try again!',
+                name: 'Unauthorized error token'
+            }
+        });
     } else {
         jwt.verify(token, secret, function(err, decoded) {
             if (err) {
-                res.status(401).send('Unauthorized: Invalid token');
+                res.status(401).json({
+                    msg: {
+                        message: 'Invalid token. Please try again!',
+                        name: 'Unauthorized error token'
+                    }
+                });
             } else {
-                req.email = decoded.email;
+                req.userId = decoded.userId;
                 next();
             }
         });

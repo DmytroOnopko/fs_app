@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {checkUserFromDb} from "../../action/user.action";
-import Success from "../Message/Success/Success";
+import { Redirect } from 'react-router-dom'
 import logo from "../Header/img/logo.svg.png";
 import Error from "../Message/Error/Error";
-import Action from "../Action";
+import ActionAuth from "../ActionAuth";
+import { withRouter } from 'react-router';
+
 
 class LogIn extends Component {
 
@@ -14,6 +16,7 @@ class LogIn extends Component {
             password: '',
         },
         show: false,
+        redirectToNewPage: false
     };
 
     onChangeLogIn = (e) => {
@@ -35,16 +38,10 @@ class LogIn extends Component {
             this.props.checkUser(
                 {...this.state.user}
             );
-            this.clearStateLogIn()
+            let newState = {...this.state};
+            newState.show = true;
+            this.setState(newState);
         }
-    };
-
-    clearStateLogIn = () =>{
-        let newState = {...this.state};
-        newState.user.email = '';
-        newState.user.password = '';
-        newState.show = true;
-        return this.setState(newState);
     };
 
     renderInputLogIn = (labelText, classNameInput, typeInput, placeholderInput, valueInput, nameInput, titleInput) => {
@@ -63,7 +60,6 @@ class LogIn extends Component {
     };
 
     handleInputLogIn = (nameInput) => {
-        console.log(this.state);
         const { email, password } = this.state.user;
 
         const regExpEmail = "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$";
@@ -105,8 +101,15 @@ class LogIn extends Component {
         }
     };
 
+    test = () => {
+        console.log('test',this);
+        if(this.props.checkedDataDb.status === 200){
+            return this.setState({ redirectToNewPage: true })
+        }
+    };
+
     render() {
-        console.log(this.state);
+
         const renderFormLogIn = () => {
             return(
                     <>
@@ -118,7 +121,7 @@ class LogIn extends Component {
                             {this.handleInputLogIn('password')}
                         </div>
 
-                        <Action buttonText={'Log in'} link={'/'} linkText={'Sign Up'} onClick={this.onClickLogIn}/>
+                        <ActionAuth buttonText={'Log in'} link={'/'} linkText={'Sign Up'} onClick={this.onClickLogIn}/>
 
                     </>
                 )
@@ -145,10 +148,8 @@ class LogIn extends Component {
                     );
                 }else if(status === 200){
                     return(
-                        <>
-                            <Success/>
-                            {renderFormLogIn()}
-                        </>
+
+                        <Redirect from='/login' to='/post'/>
                     );
                 }
             }else{
@@ -179,4 +180,4 @@ const mapDispatchToProps = (dispatch) => {
     return {checkUser: (user) => dispatch(checkUserFromDb(user))};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LogIn));

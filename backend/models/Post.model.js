@@ -11,6 +11,11 @@ const postSchema = new mongoose.Schema({
 
 const PostModel = mongoose.model('Posts', postSchema);
 
+// PostModel.find({})
+//     .populate('author')
+//     .populate('posts')
+//     .then(posts => console.log(posts));
+
 // PostModel.create({
 //     location: "Ukraine, Kiev",
 //     img_urls: 'http://en.es-static.us/upl/2018/12/comet-wirtanen-Jack-Fusco-dec-2018-Anza-Borrego-desert-CA-e1544613895713.jpg',

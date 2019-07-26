@@ -5,7 +5,7 @@ import Success from "../Message/Success/Success";
 import Error from "../Message/Error/Error";
 import logo from '../Header/img/logo.svg.png'
 import './signUp.scss';
-import Action from "../Action";
+import ActionAuth from "../ActionAuth";
 
 class SignUp extends Component {
 
@@ -211,7 +211,7 @@ class SignUp extends Component {
                         {this.handleInputUploadFileSignUp()}
                     </div>
 
-                    <Action buttonText={'Sign Up'} link={'/login'} linkText={'Log in'} onClick={this.onClickSignUp}/>
+                    <ActionAuth buttonText={'Sign Up'} link={'/login'} linkText={'Log in'} onClick={this.onClickSignUp}/>
 
                 </>
             );
