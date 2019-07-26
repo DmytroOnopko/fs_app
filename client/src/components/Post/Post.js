@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getPostFromDb} from '../../action/post.action'
 import PostItem from './PostItem/PostItem';
+import { withRouter } from 'react-router';
+
+
 
 class Post extends Component {
 
@@ -10,6 +13,7 @@ class Post extends Component {
     }
 
     render() {
+        console.log('post',this.props);
         const {isLoading, posts } = this.props;
         const listPost = posts.map(post => <PostItem key={post._id} post={post}/>);
         return (
@@ -33,4 +37,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post))

@@ -5,10 +5,11 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import './auth.scss';
 import LogIn from "../../components/LogIn/LogIn";
 
-const Auth = () => {
+const Auth = (props) => {
+    console.log('Auth', props);
     return (
         <BrowserRouter>
-            <section className="entry-section">
+            <section className="entry-section d-flex align-items-center">
                 <div className="container">
                     <div className="row">
                         <Image/>

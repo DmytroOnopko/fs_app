@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 
-function Action(props) {
+function ActionAuth(props) {
     return (
         <>
             <button type="submit" className="form-wrap__button btn btn-primary btn-lg btn-block">{props.buttonText}</button>
@@ -15,4 +15,4 @@ function Action(props) {
     );
 }
 
-export default Action;
+export default ActionAuth;
