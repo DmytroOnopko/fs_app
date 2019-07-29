@@ -5,7 +5,7 @@ import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 import Profile from "./components/Profile/Profile";
 
 
-const App = (props) => {
+const App = () => {
     return (
         <BrowserRouter>
             <Switch>

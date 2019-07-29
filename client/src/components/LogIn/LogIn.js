@@ -101,7 +101,6 @@ class LogIn extends Component {
     };
 
     render() {
-        console.log('login',this.props);
         const renderFormLogIn = () => {
             return(
                     <>

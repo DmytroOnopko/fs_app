@@ -42,7 +42,6 @@ export const checkUserFromDb = (user) => {
           .post('/api/login', user)
           .then(data => {
               window.localStorage.setItem('token', data.data.token);
-              console.log(data);
               dispatch({
                   type: CHECK_USER_SUCCESS,
                   payload: data
