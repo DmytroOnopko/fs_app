@@ -37,12 +37,11 @@ export const getUserFromDb = (userId) => {
 };
 
 export const checkUserFromDb = (user) => {
-  return dispatch => {
-      instanceAxios
+    return dispatch => {
+        instanceAxios
           .post('/api/login', user)
           .then(data => {
               window.localStorage.setItem('token', data.data.token);
-              console.log(data);
               dispatch({
                   type: CHECK_USER_SUCCESS,
                   payload: data

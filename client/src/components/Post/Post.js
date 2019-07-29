@@ -4,8 +4,6 @@ import {getPostFromDb} from '../../action/post.action'
 import PostItem from './PostItem/PostItem';
 import { withRouter } from 'react-router';
 
-
-
 class Post extends Component {
 
     componentDidMount() {
@@ -13,7 +11,6 @@ class Post extends Component {
     }
 
     render() {
-        console.log('post',this.props);
         const {isLoading, posts } = this.props;
         const listPost = posts.map(post => <PostItem key={post._id} post={post}/>);
         return (

@@ -218,7 +218,6 @@ class SignUp extends Component {
         };
 
         const handlerFormSignUp = () =>{
-            console.log('1', this.state);
             if(this.state.show){
                 const { status } = this.props.dataDb;
                 if(status === 500){

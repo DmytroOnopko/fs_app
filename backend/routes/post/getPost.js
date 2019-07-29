@@ -8,7 +8,10 @@ const {secret} = require('../../secretKey');
 router.get('/post', checkAuth, (req, res) => {
     Post.find({author: req.userId})
         .populate('author')
-        .then(posts => res.json(posts))
+        .then(posts =>{
+            console.log(posts);
+            res.json(posts)
+        })
 });
 
 module.exports = router;
