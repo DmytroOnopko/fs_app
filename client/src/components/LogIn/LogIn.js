@@ -16,7 +16,6 @@ class LogIn extends Component {
             password: '',
         },
         show: false,
-        redirectToNewPage: false
     };
 
     onChangeLogIn = (e) => {
@@ -101,15 +100,8 @@ class LogIn extends Component {
         }
     };
 
-    test = () => {
-        console.log('test',this);
-        if(this.props.checkedDataDb.status === 200){
-            return this.setState({ redirectToNewPage: true })
-        }
-    };
-
     render() {
-
+        console.log('login',this.props);
         const renderFormLogIn = () => {
             return(
                     <>
@@ -148,7 +140,6 @@ class LogIn extends Component {
                     );
                 }else if(status === 200){
                     return(
-
                         <Redirect from='/login' to='/post'/>
                     );
                 }
@@ -173,7 +164,7 @@ class LogIn extends Component {
 
 const mapStateToProps = (store) => {
     return {checkedDataDb: store.user.get('checkedDataDb').toJS()}
-};git
+};
 
 const mapDispatchToProps = (dispatch) => {
 

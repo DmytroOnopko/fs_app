@@ -1,24 +1,24 @@
 import React from 'react';
 import Image from '../../components/Image/Image';
 import SignUp from '../../components/SignUp/SignUp';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import './auth.scss';
 import LogIn from "../../components/LogIn/LogIn";
 
 const Auth = (props) => {
     console.log('Auth', props);
     return (
-        <BrowserRouter>
-            <section className="entry-section d-flex align-items-center">
-                <div className="container">
-                    <div className="row">
-                        <Image/>
+        <section className="entry-section d-flex align-items-center">
+            <div className="container">
+                <div className="row">
+                    <Image/>
+                    <Switch>
                         <Route exact path="/" component={SignUp}/>
                         <Route path="/login" component={LogIn}/>
-                    </div>
+                    </Switch>
                 </div>
-            </section>
-        </BrowserRouter>
+            </div>
+        </section>
     );
 };
 

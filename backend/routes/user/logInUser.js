@@ -55,10 +55,10 @@ router.post('/login', (req, res) => {
                         });
                 } else{
                     // Issue token
-                    console.log('5. User ID: ', user._id);
+                    console.log('5. userId: ',user._id);
                     const payload = {userId: user._id};
                     const token = jwt.sign(payload, secret, {expiresIn: '1h'});
-                    res.status(200).json({token: token, user: user});
+                    res.status(200).json({token: token});
                 }
             });
         }
