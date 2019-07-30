@@ -7,6 +7,7 @@ const initialState = fromJS({
 });
 
 const postReducer = (state = initialState, action) => {
+
     switch (action.type) {
         case GET_POST_LOADING:
             return state
@@ -17,7 +18,8 @@ const postReducer = (state = initialState, action) => {
                 .set('items', fromJS(action.payload));
         case GET_POST_ERROR:
             return state
-                .set('isLoading', false);
+                .set('isLoading', false)
+                .set('items', fromJS(action.payload));
         default:
             return state;
     }

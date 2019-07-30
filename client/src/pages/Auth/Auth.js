@@ -5,7 +5,7 @@ import {Route, Switch} from 'react-router-dom';
 import './auth.scss';
 import LogIn from "../../components/LogIn/LogIn";
 
-const Auth = (props) => {
+const Auth = () => {
     return (
         <section className="entry-section d-flex align-items-center">
             <div className="container">

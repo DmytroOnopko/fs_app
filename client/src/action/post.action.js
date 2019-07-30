@@ -12,10 +12,10 @@ export const getPostFromDb = () => {
         dispatch({
             type: GET_POST_LOADING
         });
-
         instanceAxios
             .get('/post', config)
             .then(({data}) => {
+                console.log(data)
                 dispatch({
                     type: GET_POST_SUCCESS,
                     payload: data
@@ -23,7 +23,8 @@ export const getPostFromDb = () => {
             })
             .catch(err => {
                 dispatch({
-                    type: GET_POST_ERROR
+                    type: GET_POST_ERROR,
+                    payload: err.response
                 })
             })
     }

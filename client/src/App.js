@@ -3,6 +3,7 @@ import Main from './pages/Main/Main'
 import Auth from './pages/Auth/Auth'
 import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 import Profile from "./components/Profile/Profile";
+import FilterAuth from "./components/FilterAuth/FilterAuth";
 
 
 const App = () => {
