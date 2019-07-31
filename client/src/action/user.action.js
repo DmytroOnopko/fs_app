@@ -10,13 +10,16 @@ export const CREATE_USER_ERROR = 'CREATE_USER_ERROR';
 export const CHECK_USER_SUCCESS = 'CHECK_USER_SUCCESS';
 export const CHECK_USER_ERROR = 'CHECK_USER_ERROR';
 
-export const getUserFromDb = (userId) => {
+export const GET_TOKEN_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_TOKEN_ERROR = 'GET_TOKEN_ERROR';
+
+export const getUser = (userId) => {
     return dispatch => {
         dispatch({
             type: GET_USER_LOADING
         });
         instanceAxios
-            .get('/user', {
+            .get('/api/user', {
                 params: {
                     ID: userId
                 }
@@ -36,18 +39,18 @@ export const getUserFromDb = (userId) => {
     }
 };
 
-export const checkUserFromDb = (user) => {
+export const login = (user) => {
     return dispatch => {
-        instanceAxios
+        return instanceAxios
           .post('/api/login', user)
           .then(data => {
-              window.localStorage.setItem('token', data.data.token);
               dispatch({
                   type: CHECK_USER_SUCCESS,
                   payload: data
               })
           })
           .catch(err => {
+              console.error(err);
               dispatch({
                   type: CHECK_USER_ERROR,
                   payload: err.response,
@@ -56,10 +59,10 @@ export const checkUserFromDb = (user) => {
   }
 };
 
-export const addUserToDb =  (user) =>{
+export const register = (user) =>{
     return dispatch => {
         instanceAxios
-            .post('/api/user', user)
+            .post('/api/user/register', user)
             .then(data => {
                 dispatch({
                     type: CREATE_USER_SUCCESS,
@@ -69,6 +72,26 @@ export const addUserToDb =  (user) =>{
             .catch(err => {
                 dispatch({
                     type: CREATE_USER_ERROR,
+                    payload: err.response
+                })
+            })
+    }
+};
+
+export const checkAuth = () => {
+    return dispatch => {
+        instanceAxios
+            .post('/api/user/check-token')
+            .then(data =>{
+                console.log(data);
+                dispatch({
+                    type: GET_TOKEN_SUCCESS,
+                    payload: data
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type: GET_TOKEN_ERROR,
                     payload: err.response
                 })
             })

@@ -11,7 +11,8 @@ const App = () => {
             <Switch>
                 <Route exact path='/' component={Auth}/>
                 <Route  path='/login' component={Auth}/>
-                <Route  path='/post' component={Main}/>
+                <Route  path='/register' component={Auth}/>
+                <Route path='/post' component={Main}/>
                 <Route  path='/profile/:userId' component={Profile} />
                 <Redirect from='*' to='/login'/>
             </Switch>

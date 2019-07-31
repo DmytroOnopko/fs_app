@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
 import ProfilePosts from "./ProfilePosts/ProfilePosts";
 import {connect} from 'react-redux';
-import {getUserFromDb} from '../../action/user.action'
+import {getUser} from '../../action/user.action'
 
 class Profile extends Component {
 
@@ -41,7 +41,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUser: (id) => dispatch(getUserFromDb(id)),
+        getUser: (id) => dispatch(getUser(id)),
     }
 };
 

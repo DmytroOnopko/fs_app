@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {addUserToDb} from '../../action/user.action';
+import {register} from '../../action/user.action';
 import {connect} from 'react-redux';
 import Success from "../Message/Success/Success";
 import Error from "../Message/Error/Error";
@@ -267,7 +267,7 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {createNewUser: (user) => dispatch(addUserToDb(user))};
+    return {createNewUser: (user) => dispatch(register(user))};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

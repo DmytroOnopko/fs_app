@@ -3,7 +3,7 @@ const url = 'http://localhost:3001';
 
 const instanceAxios = axios.create({
     baseURL: url,
-    headers: {'Authorization' : window.localStorage.getItem('token')}
+    withCredentials: true
 });
 
 module.exports = instanceAxios;

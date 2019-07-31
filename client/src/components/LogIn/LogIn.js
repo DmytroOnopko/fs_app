@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {checkUserFromDb} from "../../action/user.action";
+import {login} from "../../action/user.action";
 import { Redirect } from 'react-router-dom'
 import logo from "../Header/img/logo.svg.png";
 import Error from "../Message/Error/Error";
@@ -34,12 +34,15 @@ class LogIn extends Component {
         e.preventDefault();
         const status = this.state.user.email.length !== 0 && this.state.user.password.length !== 0;
         if(status){
-            this.props.checkUser(
+
+            const dt = this.props.checkUser(
                 {...this.state.user}
             );
-            let newState = {...this.state};
-            newState.show = true;
-            this.setState(newState);
+
+            dt.then(() => {
+                this.props.history.push('/post');
+            });
+            this.setState({ show: !this.state.show });
         }
     };
 
@@ -138,9 +141,9 @@ class LogIn extends Component {
 
                     );
                 }else if(status === 200){
-                    return(
-                        <Redirect from='/login' to='/post'/>
-                    );
+                    // return this.props.history.push('/post');
+                } else if(status === 403) {
+                    return (<Redirect to='/login'/>);
                 }
             }else{
                 return renderFormLogIn();
@@ -166,8 +169,7 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-
-    return {checkUser: (user) => dispatch(checkUserFromDb(user))};
+    return {checkUser: (user) => login(user)(dispatch)};
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LogIn));

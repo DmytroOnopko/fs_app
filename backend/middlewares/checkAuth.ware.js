@@ -2,15 +2,13 @@ const jwt = require('jsonwebtoken');
 const {secret} = require('../secretKey');
 
 const checkAuth = (req, res, next) => {
-    const token = req.get('Authorization');
+    const token = req.cookies.token;
     if (!token) {
-        console.log('1:', token);
-        res.status(401).json({
-            msg: {
-                message: 'No token provided. Please try again!',
-                name: 'Unauthorized error token'
-            }
-        });
+       if(req.path.match('login').length > 0) {
+           next();
+       } else {
+           res.sendStatus(403);
+       }
     } else {
         console.log('2:', token);
         jwt.verify(token, secret, function(err, decoded) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from '../../components/Image/Image';
 import SignUp from '../../components/SignUp/SignUp';
-import {Route, Switch} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import './auth.scss';
 import LogIn from "../../components/LogIn/LogIn";
 
@@ -11,14 +11,11 @@ const Auth = (props) => {
             <div className="container">
                 <div className="row">
                     <Image/>
-                    <Switch>
-                        <Route exact path="/" component={SignUp}/>
-                        <Route path="/login" component={LogIn}/>
-                    </Switch>
+                    {props.location.pathname === '/login' ? <LogIn/> : <SignUp/>}
                 </div>
             </div>
         </section>
     );
 };
 
-export default Auth;
+export default withRouter(Auth);

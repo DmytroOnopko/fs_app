@@ -5,16 +5,12 @@ export const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
 export const GET_POST_ERROR = 'GET_POST_ERROR';
 
 export const getPostFromDb = () => {
-
-    const config = {headers: {'Authorization' : window.localStorage.getItem('token')}}; // спросить instanceAxios
-
     return dispatch => {
         dispatch({
             type: GET_POST_LOADING
         });
-
         instanceAxios
-            .get('/post', config)
+            .get('/api/post')
             .then(({data}) => {
                 dispatch({
                     type: GET_POST_SUCCESS,
@@ -23,7 +19,8 @@ export const getPostFromDb = () => {
             })
             .catch(err => {
                 dispatch({
-                    type: GET_POST_ERROR
+                    type: GET_POST_ERROR,
+                    payload: err.response
                 })
             })
     }
