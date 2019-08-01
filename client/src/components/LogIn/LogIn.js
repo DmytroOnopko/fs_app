@@ -35,14 +35,19 @@ class LogIn extends Component {
         const status = this.state.user.email.length !== 0 && this.state.user.password.length !== 0;
         if(status){
 
-            const dt = this.props.checkUser(
+            this.props.checkUser(
                 {...this.state.user}
             );
 
-            dt.then(() => {
-                this.props.history.push('/post');
-            });
-            this.setState({ show: !this.state.show });
+            // const dt = this.props.checkUser(
+            //     {...this.state.user}
+            // );
+            // dt.then(() => {
+            //     this.props.history.push('/post');
+            // });
+            let newState = {...this.state};
+            newState.show = true;
+            this.setState(newState);
         }
     };
 
@@ -103,60 +108,64 @@ class LogIn extends Component {
         }
     };
 
-    render() {
-        const renderFormLogIn = () => {
-            return(
+    renderFormLogIn = () => {
+        return(
+            <>
+                <div className="form-block input-group d-flex flex-column mb-2">
+                    {this.handleInputLogIn('email')}
+                </div>
+
+                <div className="form-block input-group mb-4 d-flex flex-column">
+                    {this.handleInputLogIn('password')}
+                </div>
+
+                <ActionAuth buttonText={'Log in'} link={'/'} linkText={'Sign Up'} onClick={this.onClickLogIn}/>
+
+            </>
+        )
+    };
+
+    handleFormLogIn = () =>{
+        if(this.state.show){
+            const { status } = this.props.checkedDataDb;
+            console.log(status);
+            if(status === 500){
+                const { msg } = this.props.checkedDataDb.data;
+                return(
                     <>
-                        <div className="form-block input-group d-flex flex-column mb-2">
-                            {this.handleInputLogIn('email')}
-                        </div>
-
-                        <div className="form-block input-group mb-4 d-flex flex-column">
-                            {this.handleInputLogIn('password')}
-                        </div>
-
-                        <ActionAuth buttonText={'Log in'} link={'/'} linkText={'Sign Up'} onClick={this.onClickLogIn}/>
-
+                        <Error msg={msg}/>
+                        {this.renderFormLogIn()}
                     </>
-                )
-        };
-        const handleFormLogIn = () =>{
-            if(this.state.show){
-                const { status } = this.props.checkedDataDb;
-                if(status === 500){
-                    const { msg } = this.props.checkedDataDb.data;
-                    return(
-                        <>
-                            <Error msg={msg}/>
-                            {renderFormLogIn()}
-                        </>
-                    );
-                }else if(status === 400){
-                    const { msg } = this.props.checkedDataDb.data;
-                    return(
-                        <>
-                            <Error msg={msg}/>
-                            {renderFormLogIn()}
-                        </>
+                );
+            }else if(status === 400){
+                const { msg } = this.props.checkedDataDb.data;
+                return(
+                    <>
+                        <Error msg={msg}/>
+                        {this.renderFormLogIn()}
+                    </>
 
-                    );
-                }else if(status === 200){
-                    // return this.props.history.push('/post');
-                } else if(status === 403) {
-                    return (<Redirect to='/login'/>);
-                }
-            }else{
-                return renderFormLogIn();
+                );
+            }else if(status === 200){
+                // return this.props.history.push('/post');
+                // this.props.history.push('/post');
+                return(<Redirect to='/post'/>)
+            } else if(status === 403) {
+                return (<Redirect to='/login'/>);
             }
-        };
+        }else{
+            return this.renderFormLogIn();
+        }
+    };
 
+    render() {
 
         return (
             <div className="col-md-6 d-flex align-items-center">
                 <form className="form" onSubmit={this.onSubmitLogIn}>
                     <div className="form-wrap rounded">
                         <img className="form__img--size" src={logo} alt="logo"/>
-                        {handleFormLogIn()}
+                        {this.handleFormLogIn()}
                     </div>
                 </form>
             </div>
@@ -169,7 +178,8 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {checkUser: (user) => login(user)(dispatch)};
+    // return {checkUser: (user) => login(user)(dispatch)};
+    return{checkUser: (user) => dispatch(login(user))}
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LogIn));

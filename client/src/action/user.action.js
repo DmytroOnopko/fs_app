@@ -10,7 +10,7 @@ export const CREATE_USER_ERROR = 'CREATE_USER_ERROR';
 export const CHECK_USER_SUCCESS = 'CHECK_USER_SUCCESS';
 export const CHECK_USER_ERROR = 'CHECK_USER_ERROR';
 
-export const GET_TOKEN_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_ERROR = 'GET_TOKEN_ERROR';
 
 export const getUser = (userId) => {
@@ -50,7 +50,6 @@ export const login = (user) => {
               })
           })
           .catch(err => {
-              console.error(err);
               dispatch({
                   type: CHECK_USER_ERROR,
                   payload: err.response,
@@ -79,6 +78,7 @@ export const register = (user) =>{
 };
 
 export const checkAuth = () => {
+
     return dispatch => {
         instanceAxios
             .post('/api/user/check-token')

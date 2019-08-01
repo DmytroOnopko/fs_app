@@ -1,6 +1,4 @@
 const User = require('../../models/User.model');
-const {Router} = require('express');
-const router = new Router();
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const {secret} = require('../../secretKey');

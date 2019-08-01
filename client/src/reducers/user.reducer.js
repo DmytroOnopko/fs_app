@@ -6,18 +6,20 @@ import {
     GET_USER_LOADING,
     GET_USER_ERROR,
     CHECK_USER_SUCCESS,
-    CHECK_USER_ERROR} from "../action/user.action";
+    CHECK_USER_ERROR,
+    GET_TOKEN_SUCCESS,
+    GET_TOKEN_ERROR} from "../action/user.action";
 
 const initialState = fromJS({
     dataDb: {},
     checkedDataDb: {},
+    getToken: {},
     isLoading: false,
 });
 
 const userReducer = (state = initialState, action) => {
 
     switch (action.type) {
-
         case GET_USER_LOADING:
             return state
                 .set('isLoading', true);
@@ -43,6 +45,13 @@ const userReducer = (state = initialState, action) => {
         case CHECK_USER_ERROR:
             return state
                 .set('checkedDataDb', fromJS(action.payload));
+
+        case GET_TOKEN_SUCCESS:
+            return state
+                .set('getToken', fromJS(action.payload));
+        case GET_TOKEN_ERROR:
+            return state
+                .set('getToken', fromJS(action.payload));
 
         default:
             return state;

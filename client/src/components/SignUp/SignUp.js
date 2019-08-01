@@ -187,74 +187,74 @@ class SignUp extends Component {
         }
     };
 
-    render() {
-        const renderFormSignUp = () => {
-            return(
-                <>
-                    <div className="form-block input-group d-flex flex-column mb-2">
-                        {this.handleInputSignUp('name')}
-                    </div>
+    renderFormSignUp = () => {
+        return(
+            <>
+                <div className="form-block input-group d-flex flex-column mb-2">
+                    {this.handleInputSignUp('name')}
+                </div>
 
-                    <div className="form-block input-group d-flex flex-column mb-2">
-                        {this.handleInputSignUp('surname')}
-                    </div>
+                <div className="form-block input-group d-flex flex-column mb-2">
+                    {this.handleInputSignUp('surname')}
+                </div>
 
-                    <div className="form-block input-group d-flex flex-column mb-2">
-                        {this.handleInputSignUp('email')}
-                    </div>
+                <div className="form-block input-group d-flex flex-column mb-2">
+                    {this.handleInputSignUp('email')}
+                </div>
 
-                    <div className="form-block input-group mb-4 d-flex flex-column">
-                        {this.handleInputSignUp('password')}
-                    </div>
+                <div className="form-block input-group mb-4 d-flex flex-column">
+                    {this.handleInputSignUp('password')}
+                </div>
 
-                    <div className="form-block custom-file mb-3">
-                        {this.handleInputUploadFileSignUp()}
-                    </div>
+                <div className="form-block custom-file mb-3">
+                    {this.handleInputUploadFileSignUp()}
+                </div>
 
-                    <ActionAuth buttonText={'Sign Up'} link={'/login'} linkText={'Log in'} onClick={this.onClickSignUp}/>
+                <ActionAuth buttonText={'Sign Up'} link={'/login'} linkText={'Log in'} onClick={this.onClickSignUp}/>
 
-                </>
-            );
-        };
+            </>
+        );
+    };
 
-        const handlerFormSignUp = () =>{
-            if(this.state.show){
-                const { status } = this.props.dataDb;
-                if(status === 500){
-                    const { msg } = this.props.dataDb.data;
-                    return (
-                        <>
-                            <Error msg={msg}/>
-                            {renderFormSignUp()}
-                        </>
-                    )
-                }else if(status === 400){
-                    const { msg } = this.props.dataDb.data;
-                    return (
-                        <>
-                            <Error msg={msg}/>
-                            {renderFormSignUp()}
-                        </>
-                    )
-                }else if(status === 200){
-                    return(
-                        <>
-                            <Success/>
-                            {renderFormSignUp()}
-                        </>
-                    )
-                }
-            }else{
-                return renderFormSignUp()
+    handlerFormSignUp = () =>{
+        if(this.state.show){
+            const { status } = this.props.dataDb;
+            if(status === 500){
+                const { msg } = this.props.dataDb.data;
+                return (
+                    <>
+                        <Error msg={msg}/>
+                        {this.renderFormSignUp()}
+                    </>
+                )
+            }else if(status === 400){
+                const { msg } = this.props.dataDb.data;
+                return (
+                    <>
+                        <Error msg={msg}/>
+                        {this.renderFormSignUp()}
+                    </>
+                )
+            }else if(status === 200){
+                return(
+                    <>
+                        <Success/>
+                        {this.renderFormSignUp()}
+                    </>
+                )
             }
-        };
+        }else{
+            return this.renderFormSignUp()
+        }
+    };
 
+    render() {
         return (
             <div className="col-md-6 d-flex align-items-center">
                 <form className="form" onSubmit={this.onSubmitSignUp}>
                     <div className="form-wrap rounded">
                         <img className="form__img--size" src={logo} alt="logo"/>
-                        {handlerFormSignUp()}
+                        {this.handlerFormSignUp()}
                     </div>
                 </form>
             </div>

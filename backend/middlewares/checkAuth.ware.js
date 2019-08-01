@@ -4,11 +4,23 @@ const {secret} = require('../secretKey');
 const checkAuth = (req, res, next) => {
     const token = req.cookies.token;
     if (!token) {
-       if(req.path.match('login').length > 0) {
+       if(req.path.match('login')) {
            next();
        } else {
-           res.sendStatus(403);
+           res.status(401).json({
+               msg: {
+                   message: 'No token provided. Please try again!',
+                   name: 'Unauthorized error token'
+               }
+           });
        }
+        // console.log('1:', token);
+        // res.status(401).json({
+        //     msg: {
+        //         message: 'No token provided. Please try again!',
+        //         name: 'Unauthorized error token'
+        //     }
+        // });
     } else {
         console.log('2:', token);
         jwt.verify(token, secret, function(err, decoded) {
